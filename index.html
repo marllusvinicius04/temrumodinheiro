@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#29AB87">
+  <title>TemRumo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="api-status" id="apiStatus"><i class="fa-solid fa-cloud-arrow-up"></i><span>Sincronizando...</span></div>
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-wrap">
+      
+      <aside class="auth-brand">
+        <div class="auth-logo">
+          <i class="fa-solid fa-compass"></i>
+          <span>TemRumo</span>
+        </div>
+<div class="auth-brand-copy">
+          <span><i class="fa-solid fa-sparkles"></i> SUA GRANA, MAIS NO CONTROLE</span>
+          <h1>Chega de olhar o saldo e pensar: “ué, cadê meu dinheiro?”</h1>
+          <p>O TemRumo te ajuda a entender o que tá livre, organizar metas, segurar o impulso e aprender educação financeira no dia a dia.</p>
+        </div>
+
+        <div class="auth-proof">
+          <div>
+            <strong>Sem papo chato</strong>
+            <span>Educação financeira que dá pra entender.</span>
+          </div>
+          <div>
+            <strong>Vida real</strong>
+            <span>Rolê, delivery, cartão e metas.</span>
+          </div>
+          <div>
+            <strong>Do seu jeito</strong>
+            <span>O app aprende onde você mais se enrola.</span>
+          </div>
+        </div>
+      </aside>
+
+
+      <main class="auth-card">
+        <div class="auth-mobile-logo">
+          <i class="fa-solid fa-compass"></i>
+          <span>TemRumo</span>
+        </div>
+
+        <section class="auth-view active" id="authLogin">
+          <span class="auth-eyebrow">BEM-VINDO DE VOLTA 👋</span>
+          <h2>Bora entrar?</h2>
+          <p class="auth-sub">Sua grana não vai se organizar sozinha hehe.</p>
+
+          <form class="auth-form" onsubmit="doLogin(event)">
+            <div class="auth-field">
+              <label>SEU E-MAIL</label>
+              <div class="auth-input">
+                <i class="fa-regular fa-envelope"></i>
+                <input id="loginEmail" type="email" autocomplete="email" placeholder="voce@email.com" required>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label>SENHA</label>
+              <div class="auth-input">
+                <i class="fa-solid fa-lock"></i>
+                <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha" required>
+                <button class="auth-eye" type="button" onclick="toggleAuthPassword('loginPassword',this)" aria-label="Mostrar senha">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-row">
+              <label class="auth-check">
+                <input type="checkbox" checked>
+                <span>Lembrar de mim</span>
+              </label>
+              <button type="button" class="auth-link" onclick="showAuthView('forgot')">Esqueci minha senha</button>
+            </div>
+
+            <button class="auth-primary" type="submit">Entrar no TemRumo</button>
+          </form>
+
+          <div class="auth-switch">
+            Ainda não tem conta?
+            <button type="button" onclick="showAuthView('signup')">Criar agora</button>
+          </div>
+        </section>
+
+        <section class="auth-view" id="authSignup">
+          <button class="auth-back" type="button" onclick="showAuthView('login')">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+          </button>
+          <span class="auth-eyebrow">BORA COMEÇAR 🚀</span>
+          <h2>Cria sua conta</h2>
+          <p class="auth-sub">Leva poucos segundos. Depois a gente entende seu momento financeiro.</p>
+
+          <form class="auth-form" onsubmit="doSignup(event)">
+            <div class="auth-field">
+              <label>COMO A GENTE TE CHAMA?</label>
+              <div class="auth-input">
+                <i class="fa-regular fa-user"></i>
+                <input id="signupName" type="text" autocomplete="name" placeholder="Seu nome" required>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label>SEU E-MAIL</label>
+              <div class="auth-input">
+                <i class="fa-regular fa-envelope"></i>
+                <input id="signupEmail" type="email" autocomplete="email" placeholder="voce@email.com" required>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label>CRIA UMA SENHA</label>
+              <div class="auth-input">
+                <i class="fa-solid fa-lock"></i>
+                <input id="signupPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Pelo menos 6 caracteres" required>
+                <button class="auth-eye" type="button" onclick="toggleAuthPassword('signupPassword',this)" aria-label="Mostrar senha">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <label class="auth-check">
+              <input type="checkbox" required>
+              <span>Li e aceito os termos de uso e privacidade.</span>
+            </label>
+
+            <button class="auth-primary" type="submit">Criar minha conta</button>
+          </form>
+
+          <div class="auth-switch">
+            Já tem conta?
+            <button type="button" onclick="showAuthView('login')">Entrar</button>
+          </div>
+
+          <p class="auth-terms">Seus dados financeiros ficam aqui só para personalizar sua experiência no protótipo.</p>
+        </section>
+
+
+        <section class="auth-view" id="authOnboarding">
+          <span class="auth-eyebrow">AGORA A PARTE IMPORTANTE 👀</span>
+          <h2>Como tá sua vida financeira hoje?</h2>
+          <p class="auth-sub">Sem julgamento. Quanto mais real você for aqui, mais o TemRumo consegue te ajudar de verdade.</p>
+
+          <div class="onboard-progress">
+            <div class="onboard-progress-bar"><span id="onboardProgressFill"></span></div>
+            <small id="onboardProgressText">1 de 4</small>
+          </div>
+
+          <form id="financialOnboardingForm" onsubmit="finishFinancialOnboarding(event)">
+            <div class="onboard-step active" data-onboard-step="1">
+              <div class="onboard-question-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+              <span class="auth-eyebrow">PRIMEIRO: ONDE PEGA?</span>
+              <h3>Onde sua grana mais some?</h3>
+              <p>Escolhe o que mais parece com sua rotina.</p>
+
+              <div class="onboard-options" data-field="spend">
+                <button type="button" data-value="delivery"><i class="fa-solid fa-burger"></i><span>Delivery e comida</span></button>
+                <button type="button" data-value="role"><i class="fa-solid fa-martini-glass-citrus"></i><span>Rolê e saídas</span></button>
+                <button type="button" data-value="online"><i class="fa-solid fa-bag-shopping"></i><span>Compras online</span></button>
+                <button type="button" data-value="games"><i class="fa-solid fa-gamepad"></i><span>Games e assinaturas</span></button>
+                <button type="button" data-value="transport"><i class="fa-solid fa-car-side"></i><span>Transporte</span></button>
+                <button type="button" data-value="geral"><i class="fa-solid fa-shuffle"></i><span>Um pouco de tudo</span></button>
+              </div>
+
+              <button class="auth-primary onboard-next" type="button" onclick="nextOnboardingStep()">Continuar</button>
+            </div>
+
+            <div class="onboard-step" data-onboard-step="2">
+              <button class="auth-back onboard-back" type="button" onclick="prevOnboardingStep()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+              </button>
+              <div class="onboard-question-icon"><i class="fa-solid fa-brain"></i></div>
+              <span class="auth-eyebrow">SEM FILTRO</span>
+              <h3>O que mais te enrola com dinheiro?</h3>
+              <p>Isso ajuda o app a não te dar dica genérica.</p>
+
+              <div class="onboard-options" data-field="mainPain">
+                <button type="button" data-value="impulso"><i class="fa-solid fa-bolt"></i><span>Compro no impulso</span></button>
+                <button type="button" data-value="planejamento"><i class="fa-solid fa-calendar-days"></i><span>Minha grana some antes do mês acabar</span></button>
+                <button type="button" data-value="guardar"><i class="fa-solid fa-piggy-bank"></i><span>Guardo e depois acabo gastando</span></button>
+                <button type="button" data-value="divida"><i class="fa-solid fa-file-invoice-dollar"></i><span>Tô preso em dívida</span></button>
+                <button type="button" data-value="cartao"><i class="fa-solid fa-credit-card"></i><span>O cartão foge do controle</span></button>
+                <button type="button" data-value="renda"><i class="fa-solid fa-wave-square"></i><span>Minha renda é apertada ou varia</span></button>
+              </div>
+
+              <button class="auth-primary onboard-next" type="button" onclick="nextOnboardingStep()">Continuar</button>
+            </div>
+
+            <div class="onboard-step" data-onboard-step="3">
+              <button class="auth-back onboard-back" type="button" onclick="prevOnboardingStep()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+              </button>
+              <div class="onboard-question-icon"><i class="fa-solid fa-fire"></i></div>
+              <span class="auth-eyebrow">PAPO RETO</span>
+              <h3>E o impulso, como tá?</h3>
+              <p>Não precisa acertar perfeito. Marca o que chega mais perto.</p>
+
+              <div class="onboard-options one-column" data-field="compulsive">
+                <button type="button" data-value="baixo"><i class="fa-regular fa-face-smile"></i><span><strong>De boa</strong><small>Quase nunca compro por impulso.</small></span></button>
+                <button type="button" data-value="medio"><i class="fa-regular fa-face-meh"></i><span><strong>Às vezes pega</strong><small>Compro e depois penso “eu precisava mesmo?”.</small></span></button>
+                <button type="button" data-value="alto"><i class="fa-regular fa-face-grimace"></i><span><strong>Tá complicado</strong><small>Eu compro no impulso direto e isso pesa no mês.</small></span></button>
+              </div>
+
+              <button class="auth-primary onboard-next" type="button" onclick="nextOnboardingStep()">Continuar</button>
+            </div>
+
+            <div class="onboard-step" data-onboard-step="4">
+              <button class="auth-back onboard-back" type="button" onclick="prevOnboardingStep()">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
+              </button>
+              <div class="onboard-question-icon"><i class="fa-solid fa-receipt"></i></div>
+              <span class="auth-eyebrow">ÚLTIMA, JURO 😅</span>
+              <h3>Tá com dívida hoje?</h3>
+              <p>Isso muda bastante o tipo de orientação que o TemRumo vai te dar.</p>
+
+              <div class="onboard-options one-column" data-field="debt">
+                <button type="button" data-value="nao"><i class="fa-solid fa-circle-check"></i><span><strong>Não</strong><small>Não tenho dívida pesando hoje.</small></span></button>
+                <button type="button" data-value="sim_controlada"><i class="fa-solid fa-scale-balanced"></i><span><strong>Sim, mas tá sob controle</strong><small>Tô pagando e consigo acompanhar.</small></span></button>
+                <button type="button" data-value="sim_pesando"><i class="fa-solid fa-weight-hanging"></i><span><strong>Sim, e tá pesando</strong><small>As parcelas já apertam meu mês.</small></span></button>
+                <button type="button" data-value="atrasada"><i class="fa-solid fa-triangle-exclamation"></i><span><strong>Sim, tenho conta atrasada</strong><small>Tem coisa vencida ou acumulando.</small></span></button>
+              </div>
+
+              <div class="onboard-finish-note">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Com isso, suas missões, o “Posso gastar?” e as dicas passam a considerar sua vida real.</span>
+              </div>
+
+              <button class="auth-primary" type="submit">Pronto, montar meu TemRumo</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="auth-view" id="authForgot">
+          <button class="auth-back" type="button" onclick="showAuthView('login')">
+            <i class="fa-solid fa-arrow-left"></i> Voltar pro login
+          </button>
+
+          <div id="forgotFormWrap">
+            <div class="auth-recovery-icon">
+              <i class="fa-solid fa-key"></i>
+            </div>
+            <span class="auth-eyebrow">DEU BRANCO? NORMAL 😅</span>
+            <h2>Bora recuperar sua senha</h2>
+            <p class="auth-sub">Manda seu e-mail e a gente simula o envio de um link pra você criar uma nova senha.</p>
+
+            <form class="auth-form" style="margin-top:20px" onsubmit="doForgot(event)">
+              <div class="auth-field">
+                <label>SEU E-MAIL</label>
+                <div class="auth-input">
+                  <i class="fa-regular fa-envelope"></i>
+                  <input id="forgotEmail" type="email" autocomplete="email" placeholder="voce@email.com" required>
+                </div>
+              </div>
+              <button class="auth-primary" type="submit">Mandar link de recuperação</button>
+            </form>
+          </div>
+
+          <div class="auth-success" id="forgotSuccess">
+            <i class="fa-solid fa-paper-plane"></i>
+            <strong>Pronto, foi ✨</strong>
+            <span>No app real, o link de recuperação chegaria no seu e-mail. Aqui a gente só simula essa etapa.</span>
+            <button class="auth-primary" type="button" onclick="showAuthView('login')" style="margin-top:18px">Voltar e entrar</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+<div class="layout">
+  <aside class="side">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-location-arrow"></i></div>
+      Tem<span>Rumo</span>
+    </div>
+
+    <nav class="nav">
+      <button class="active" data-page="home"><i class="fa-solid fa-house"></i>Início</button>
+      <button data-page="movimentos"><i class="fa-solid fa-arrow-right-arrow-left"></i>Movimentos</button>
+      <button data-page="assessor"><i class="fa-solid fa-comments-dollar"></i>Posso gastar?</button>
+      <button data-page="carteiras"><i class="fa-solid fa-wallet"></i>Carteiras</button>
+      <button data-page="eu"><i class="fa-solid fa-chart-line"></i>Eu</button>
+      <button data-page="perfil"><i class="fa-regular fa-user"></i>Perfil</button>
+    </nav>
+
+    <div class="side-card">
+      <small>PAPO RETO</small>
+      <strong>Ter saldo não quer dizer poder gastar tudo.</strong>
+      <p>O TemRumo mostra o que já tem destino e o que dá pra usar de boa.</p>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div>
+        <small>SEU PAINEL FINANCEIRO</small>
+        <h1>TemRumo</h1>
+      </div>
+      <div class="top-actions">
+        <button class="top-icon" data-page="perfil" title="Acessar perfil" aria-label="Acessar perfil"><i class="fa-regular fa-user"></i></button>
+        <div class="avatar">MV</div>
+      </div>
+    </header>
+
+    <div class="phone-shell">
+
+      <!-- HOME -->
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <div class="hero-top">
+            <div class="user">
+              <div class="mini-avatar">MV</div>
+              <div>
+                <strong>Olá, Marllus</strong>
+                <span>Bora fazer seu dinheiro parar de sumir? 👀</span>
+              </div>
+            </div>
+            <button class="hero-bell" data-page="perfil" title="Acessar perfil" aria-label="Acessar perfil"><i class="fa-regular fa-user"></i></button>
+          </div>
+
+          <div class="balance-zone">
+            <small>Quanto você tem agora</small>
+            <div class="balance-line">
+              <div class="balance" id="balanceValue">R$ 2.840,00</div>
+              <button class="eye" id="eyeBtn"><i class="fa-regular fa-eye"></i></button>
+            </div>
+
+            <div class="free-highlight">
+              <div class="free-highlight-icon"><i class="fa-solid fa-wallet"></i></div>
+              <div class="free-highlight-copy">
+                <span>DÁ PRA GASTAR SEM MEDO</span>
+                <strong id="freeValue">R$ 420,00</strong>
+                <small>Esse é o valor que tá realmente livre pra você usar sem bagunçar o resto.</small>
+              </div>
+            </div>
+
+            <div class="hero-buttons">
+              <button data-modal="entrada"><i class="fa-solid fa-plus"></i> Caiu dinheiro</button>
+              <button data-page="assessor"><i class="fa-solid fa-comments-dollar"></i> Posso gastar?</button>
+            </div>
+          </div>
+
+          <div class="wallet-strip">
+            <div class="head">
+              <strong>Seus bancos</strong>
+              <button data-modal="bancos"><i class="fa-solid fa-plus"></i> Adicionar</button>
+            </div>
+            <div class="wallet-chips bank-logo-strip" id="homeBankLogos"></div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="section-title">
+            <h3>Ações rápidas</h3>
+          </div>
+
+          <div class="service-grid">
+            <button class="service" data-modal="entrada">
+              <div class="service-icon"><i class="fa-solid fa-arrow-down"></i></div>
+              <span>Entrada</span>
+            </button>
+            <button class="service" data-modal="saida">
+              <div class="service-icon"><i class="fa-solid fa-arrow-up"></i></div>
+              <span>Saída</span>
+            </button>
+            <button class="service" data-modal="guardar">
+              <div class="service-icon"><i class="fa-solid fa-vault"></i></div>
+              <span>Guardar</span>
+            </button>
+            <button class="service" data-modal="divida">
+              <div class="service-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+              <span>Dívida</span>
+            </button>
+          </div>
+
+          <div class="section-title">
+            <h3>Seu próximo objetivo</h3>
+            <button>Ver detalhes</button>
+          </div>
+
+          <div class="bank-card">
+            <div class="goal-top">
+              <div class="goal-icon"><i class="fa-solid fa-car-side"></i></div>
+              <div>
+                <strong>Comprar meu carro</strong>
+                <span>R$ 4.800 de R$ 15.000</span>
+              </div>
+            </div>
+            <div class="progress"><div></div></div>
+            <div class="progress-info">
+              <span>32% conquistado</span>
+              <span>Previsão: mai/2027</span>
+            </div>
+          </div>
+
+          <div class="section-title">
+            <h3>Missões de hoje</h3>
+            <button>Ver todos</button>
+          </div>
+
+          <div class="challenge-row">
+            <div class="challenge">
+              <i class="fa-solid fa-coins"></i>
+              <strong>Guarde R$ 20</strong>
+              <span>Leve um pouco do dinheiro livre para a reserva.</span>
+              <button data-challenge="20">Concluir</button>
+            </div>
+
+            <div class="challenge">
+              <i class="fa-solid fa-ban"></i>
+              <strong>24h sem impulso</strong>
+              <span>Evite compras não planejadas até amanhã.</span>
+              <button>Começar</button>
+            </div>
+
+            <div class="challenge">
+              <i class="fa-solid fa-receipt"></i>
+              <strong>Registre tudo</strong>
+              <span>Nenhum gasto passa sem entrar no TemRumo.</span>
+              <button>Marcar feito</button>
+            </div>
+          </div>
+
+          <div class="section-title">
+            <h3>Pra onde foi sua grana</h3>
+            <button data-page="movimentos">Ver todos</button>
+          </div>
+
+          <div class="bank-card" id="homeRecentTransactions">
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="tx-info">
+                <strong>Pagamento de cliente</strong>
+                <span>Hoje • Mercado Pago</span>
+              </div>
+              <div class="tx-value in">+ R$ 650,00</div>
+            </div>
+
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-utensils"></i></div>
+              <div class="tx-info">
+                <strong>Alimentação</strong>
+                <span>Ontem • Dinheiro livre</span>
+              </div>
+              <div class="tx-value">− R$ 48,00</div>
+            </div>
+
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-motorcycle"></i></div>
+              <div class="tx-info">
+                <strong>Parcela da moto</strong>
+                <span>Vence em 4 dias</span>
+              </div>
+              <div class="tx-value">R$ 650,00</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MOVIMENTOS -->
+      <section class="page" id="page-movimentos">
+        <div class="subpage">
+          <div class="subpage-head">
+            <div>
+              <h2>Movimentos</h2>
+              <p>O que entrou, o que saiu e onde sua grana foi parar.</p>
+            </div>
+            <button data-modal="entrada"><i class="fa-solid fa-plus"></i> Nova entrada</button>
+          </div>
+
+          <div class="bank-card" id="allTransactions">
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-briefcase"></i></div>
+              <div class="tx-info">
+                <strong>Pagamento de cliente</strong>
+                <span>Hoje • Mercado Pago</span>
+              </div>
+              <div class="tx-value in">+ R$ 650,00</div>
+            </div>
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-utensils"></i></div>
+              <div class="tx-info">
+                <strong>Alimentação</strong>
+                <span>Ontem • Dinheiro livre</span>
+              </div>
+              <div class="tx-value">− R$ 48,00</div>
+            </div>
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-shield-heart"></i></div>
+              <div class="tx-info">
+                <strong>Reserva de segurança</strong>
+                <span>29 ago • Carteira</span>
+              </div>
+              <div class="tx-value">R$ 100,00</div>
+            </div>
+            <div class="transaction">
+              <div class="tx-icon"><i class="fa-solid fa-wifi"></i></div>
+              <div class="tx-info">
+                <strong>Internet</strong>
+                <span>28 ago • Obrigação</span>
+              </div>
+              <div class="tx-value">− R$ 99,90</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ASSESSOR -->
+      <section class="page" id="page-assessor">
+        <div class="advisor-shell">
+          <div class="advisor-panel">
+            <div class="advisor-header">
+              <div class="advisor-contact">
+                <div class="advisor-avatar"><i class="fa-solid fa-compass"></i></div>
+                <div>
+                  <strong>Posso gastar?</strong>
+                  <span><i class="fa-solid fa-circle"></i> tô por aqui</span>
+                </div>
+              </div>
+              <button class="advisor-info" type="button" onclick="openModal('advisorInfo')" aria-label="Como funciona">
+                <i class="fa-solid fa-circle-info"></i>
+              </button>
+            </div>
+
+            <div class="advisor-education-strip">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Não vou só mandar um “pode” ou “não pode”. Vou te mostrar o que esse gasto faz com sua grana e te ajudar a decidir melhor.</span>
+            </div>
+
+            <div class="advisor-chat" id="advisorChat">
+              <div class="chat-day">Hoje</div>
+
+              <div class="message-row assistant">
+                <div class="message-avatar"><i class="fa-solid fa-compass"></i></div>
+                <div class="bubble assistant-bubble">
+                  <div class="bubble-text">
+                    Manda a real: o que você tá querendo comprar ou fazer? Se souber o valor, já manda junto.
+                  </div>
+                  <div class="bubble-meta">Rumo • agora</div>
+                </div>
+              </div>
+
+              <div class="message-row assistant">
+                <div class="message-avatar"><i class="fa-solid fa-compass"></i></div>
+                <div class="bubble assistant-bubble">
+                  <div class="bubble-text">
+                    Vou olhar quanto tá livre, seus objetivos e seu jeito de gastar antes de te responder.
+                  </div>
+                  <div class="bubble-meta">Rumo • agora</div>
+                </div>
+              </div>
+
+              <div class="chat-suggestions" id="advisorSuggestions">
+                <button type="button" onclick="sendQuickAdvisor('Posso gastar R$ 80 no rolê hoje?')">R$ 80 no rolê</button>
+                <button type="button" onclick="sendQuickAdvisor('Quero pedir delivery de R$ 45. Cabe no meu rumo?')">Pedir um delivery de R$ 45</button>
+                <button type="button" onclick="sendQuickAdvisor('Vale a pena parcelar uma compra de R$ 300?')">Parcelar R$ 300 vale?</button>
+              </div>
+
+              <div class="typing-row" id="advisorTyping" style="display:none">
+                <div class="message-avatar"><i class="fa-solid fa-compass"></i></div>
+                <div class="typing-bubble">
+                  <span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="advisor-composer">
+              <div class="advisor-input-wrap">
+                <textarea id="advisorInput" rows="1" placeholder="Manda sua dúvida aqui..." maxlength="500"></textarea>
+                <button type="button" class="advisor-send" id="advisorSend" aria-label="Enviar">
+                  <i class="fa-solid fa-paper-plane"></i>
+                </button>
+              </div>
+              <small>A ideia aqui é te ajudar a pensar melhor sobre dinheiro — sem papo chato.</small>
+            </div>
+          </div>
+
+          <aside class="advisor-side">
+            <div class="advisor-side-card">
+              <span class="advisor-side-kicker">ANTES DE METER O CARTÃO</span>
+              <h3>O que eu olho antes</h3>
+
+              <div class="advisor-factor">
+                <i class="fa-solid fa-wallet"></i>
+                <div>
+                  <strong>Dinheiro livre</strong>
+                  <span>Quanto tá realmente livre sem mexer no que já tem destino.</span>
+                </div>
+              </div>
+
+              <div class="advisor-factor">
+                <i class="fa-solid fa-bullseye"></i>
+                <div>
+                  <strong>Objetivos</strong>
+                  <span>As metas que você já decidiu que importam.</span>
+                </div>
+              </div>
+
+              <div class="advisor-factor">
+                <i class="fa-solid fa-brain"></i>
+                <div>
+                  <strong>Seu comportamento</strong>
+                  <span>Se você gasta no impulso, tem dívida ou se perde mais em alguma coisa.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="advisor-side-card lesson-card">
+              <span class="advisor-side-kicker">PAPO RETO</span>
+              <h3>Uma regra pra vida</h3>
+              <p>Se pra comprar você precisa pegar dinheiro de uma meta, então essa compra não tá cabendo de verdade.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+<!-- EU -->
+      <section class="page" id="page-eu">
+        <div class="subpage">
+          <div class="subpage-head">
+            <div>
+              <h2>Eu</h2>
+              <p>Seu progresso com dinheiro, sem enrolação.</p>
+            </div>
+          </div>
+
+          <div class="me-summary">
+            <small>COMO TÁ SUA VIDA FINANCEIRA</small>
+            <h3>Você já tá começando a mandar mais na sua grana.</h3>
+            <p>Aqui você vê se tá evoluindo de verdade: hábitos, missões, grana livre, metas e tudo que pesa no seu bolso.</p>
+          </div>
+
+          <div class="me-kpis">
+            <div class="me-kpi">
+              <i class="fa-solid fa-wallet"></i>
+              <span>Dinheiro livre</span>
+              <strong id="meFree">R$ 420</strong>
+            </div>
+            <div class="me-kpi">
+              <i class="fa-solid fa-bullseye"></i>
+              <span>Guardado em metas</span>
+              <strong id="meSaved">R$ 1.970</strong>
+            </div>
+            <div class="me-kpi">
+              <i class="fa-solid fa-fire-flame-curved"></i>
+              <span>Missões feitas</span>
+              <strong id="meMissions">0</strong>
+            </div>
+          </div>
+
+          <div class="me-card">
+            <div class="me-card-head">
+              <div>
+                <strong>Seu nível com dinheiro</strong>
+                <span>Uma nota simples do seu momento atual</span>
+              </div>
+              <i class="fa-solid fa-chart-pie" style="color:#29AB87"></i>
+            </div>
+
+            <div class="score-ring" id="scoreRing">
+              <div class="score-content">
+                <strong id="scoreValue">68</strong>
+                <span>de 100</span>
+              </div>
+            </div>
+
+            <div class="score-status" id="scoreStatus">
+              Você já começou bem. Agora o foco é manter constância e reduzir decisões no impulso.
+            </div>
+          </div>
+
+          <div class="me-card">
+            <div class="me-card-head">
+              <div>
+                <strong>Pra onde sua grana tá indo</strong>
+                <span>Resumo rápido do que tá acontecendo</span>
+              </div>
+            </div>
+
+            <div class="bar-chart">
+              <div class="bar-item">
+                <span>Livre</span>
+                <div class="bar-track"><div class="bar-fill" id="barFree" style="width:15%"></div></div>
+                <b id="barFreeLabel">15%</b>
+              </div>
+              <div class="bar-item">
+                <span>Carteiras</span>
+                <div class="bar-track"><div class="bar-fill" id="barWallets" style="width:69%"></div></div>
+                <b id="barWalletsLabel">69%</b>
+              </div>
+              <div class="bar-item">
+                <span>Comprometido</span>
+                <div class="bar-track"><div class="bar-fill" id="barCommitted" style="width:16%"></div></div>
+                <b id="barCommittedLabel">16%</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="me-card">
+            <div class="me-card-head">
+              <div>
+                <strong>O que você já melhorou</strong>
+                <span>Os sinais de que você tá ficando mais organizado</span>
+              </div>
+            </div>
+
+            <div class="progress-list">
+              <div class="progress-row">
+                <i class="fa-solid fa-shield-heart"></i>
+                <div>
+                  <strong>Você já separou grana pra objetivos</strong>
+                  <span>Isso ajuda a não gastar sem querer o dinheiro de uma meta.</span>
+                </div>
+                <b id="progressWallets">2</b>
+              </div>
+
+              <div class="progress-row">
+                <i class="fa-solid fa-check-double"></i>
+                <div>
+                  <strong>Missões concluídas</strong>
+                  <span>Cada escolha boa vai virando hábito.</span>
+                </div>
+                <b id="progressMissions">0</b>
+              </div>
+
+              <div class="progress-row">
+                <i class="fa-solid fa-coins"></i>
+                <div>
+                  <strong>Quanto você pode ter evitado gastar</strong>
+                  <span>Uma estimativa do que você segurou ou deixou pra depois.</span>
+                </div>
+                <b id="progressSaved">R$ 0</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="me-card">
+            <div class="me-card-head">
+              <div>
+                <strong>O que o TemRumo percebeu</strong>
+                <span>Uma dica baseada no seu jeito de gastar</span>
+              </div>
+            </div>
+
+            <div class="insight-box" id="meInsight">
+              <strong>Pra focar agora</strong>
+              Continue olhando o dinheiro livre antes de gastar e use as missões para reduzir compras no automático.
+            </div>
+          </div>
+        </div>
+      </section>
+
+<!-- CARTEIRAS -->
+      <section class="page" id="page-carteiras">
+        <div class="subpage">
+          <div class="subpage-head">
+            <div>
+              <h2>Carteiras</h2>
+              <p>Dinheiro separado pros planos que importam.</p>
+            </div>
+            <button data-modal="carteira"><i class="fa-solid fa-plus"></i> Nova</button>
+          </div>
+
+          <div class="wallet-list" id="walletList">
+            <div class="wallet-card">
+              <div class="top">
+                <div>
+                  <small>CARTEIRA</small>
+                  <h3>Reserva de segurança</h3>
+                </div>
+                <i class="fa-solid fa-shield-heart"></i>
+              </div>
+              <small>Guardado</small>
+              <strong>R$ 620,00</strong>
+              <div class="progress"><div style="width:62%"></div></div>
+            </div>
+
+            <div class="wallet-card">
+              <div class="top">
+                <div>
+                  <small>CARTEIRA</small>
+                  <h3>Meu carro</h3>
+                </div>
+                <i class="fa-solid fa-car-side"></i>
+              </div>
+              <small>Guardado</small>
+              <strong>R$ 1.350,00</strong>
+              <div class="progress"><div style="width:9%"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERFIL -->
+      <section class="page" id="page-perfil">
+        <div class="subpage">
+          <div class="subpage-head">
+            <div>
+              <h2>Perfil</h2>
+              <p>Sua conta, suas metas e seu jeito de lidar com grana.</p>
+            </div>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-avatar">MV</div>
+            <h3>Marllus Vinícius</h3>
+            <p>Seu canto no TemRumo</p>
+          </div>
+
+          <div class="settings">
+            <button class="setting" data-modal="conta">
+              <i class="fa-solid fa-user-pen"></i>
+              <div>
+                <strong>Minha conta</strong>
+                <span>Nome, foto e dados pessoais</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <button class="setting" data-modal="bancos">
+              <i class="fa-solid fa-building-columns"></i>
+              <div>
+                <strong>Meus bancos</strong>
+                <span>Onde seu dinheiro fica</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <button class="setting" data-page="carteiras">
+              <i class="fa-solid fa-bullseye"></i>
+              <div>
+                <strong>Metas e carteiras</strong>
+                <span>Organize os planos que você quer tirar do papel</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <button class="setting" data-modal="preferencias">
+              <i class="fa-solid fa-sliders"></i>
+              <div>
+                <strong>Como eu lido com dinheiro</strong>
+                <span>Seus hábitos e as partes onde você mais se enrola</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <button class="setting" data-modal="privacidade">
+              <i class="fa-solid fa-shield-halved"></i>
+              <div>
+                <strong>Trocar senha</strong>
+                <span>Muda sua senha por aqui</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <button class="setting danger-setting" data-modal="excluir">
+              <i class="fa-solid fa-trash-can"></i>
+              <div>
+                <strong>Excluir minha conta</strong>
+                <span>Apagar sua conta e seus dados do TemRumo</span>
+              </div>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <nav class="bottom-nav">
+        <button class="active" data-page="home"><i class="fa-solid fa-house"></i><span>Início</span></button>
+        <button data-page="movimentos"><i class="fa-solid fa-arrow-right-arrow-left"></i><span>Movimentos</span></button>
+        <button class="center" data-page="assessor"><i class="fa-solid fa-location-arrow"></i><span>Posso?</span></button>
+        <button data-page="carteiras"><i class="fa-solid fa-wallet"></i><span>Carteiras</span></button>
+        <button data-page="eu"><i class="fa-solid fa-chart-line"></i><span>Eu</span></button>
+      </nav>
+    </div>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">TemRumo</h3>
+      <button class="close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Feito.</div>
+<div id="loginLoading" class="login-loading" aria-live="polite" aria-hidden="true">
+  <div class="login-loading-box">
+    <div class="login-loading-logo"><i class="fa-solid fa-compass"></i></div>
+    <div class="login-spinner"></div>
+    <strong id="loginLoadingTitle">Entrando...</strong>
+    <span id="loginLoadingText">Puxando sua vida financeira rapidinho.</span>
+  </div>
+</div>
+
+<div id="fullFeedback" class="full-feedback" aria-live="polite">
+  <div id="feedbackLoading" class="feedback-processing">
+    <div class="feedback-card">
+      <div class="feedback-loader"></div>
+      <strong id="feedbackLoadingTitle">Processando...</strong>
+      <div id="feedbackLoadingText" class="feedback-text">Só um instante.</div>
+    </div>
+  </div>
+
+  <div id="feedbackSuccess" class="feedback-card" style="display:none">
+    <div class="feedback-icon"><i id="feedbackIcon" class="fa-solid fa-check"></i></div>
+    <div id="feedbackTitle" class="feedback-title">Boa!</div>
+    <div id="feedbackText" class="feedback-text"></div>
+    <button class="feedback-close" onclick="closeTransactionFeedback()">Continuar</button>
+  </div>
+</div>
+  <script src="script.js"></script>
+</body>
+</html>
